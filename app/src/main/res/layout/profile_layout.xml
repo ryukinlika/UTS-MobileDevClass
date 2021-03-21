@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/profile_linear2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        android:id="@+id/profile_linear1"
+        >
+        <ImageView
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:src="@drawable/profile_icon"
+            android:layout_gravity="center"/>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:text="NIM  "
+                android:textSize="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:text=":"
+                android:textSize="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_row="0"
+                android:layout_gravity="right"
+                android:text="00000029240"
+                android:textSize="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:text="Nama  "
+                android:textSize="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="1"
+                android:text=":"
+                android:textSize="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_row="1"
+                android:layout_gravity="right"
+                android:text="    Ryukin Aranta Lika"
+                android:textSize="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="2"
+                android:text="Kelas  "
+                android:textSize="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="2"
+                android:text=":"
+                android:textSize="25dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_row="2"
+                android:layout_gravity="right"
+                android:text="CL"
+                android:textSize="25dp"/>
+
+        </GridLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/profile_linear1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        android:id="@+id/profile_linear2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="REFERENSI"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://www.techotopia.com/index.php/Working_with_the_Android_GridLayout_in_XML_Layout_Resources"
+            android:textSize="12dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://stackoverflow.com/questions/39461954/list-all-mp3-files-in-android"
+            android:textSize="12dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://stackoverflow.com/questions/3747139/how-can-i-show-a-mediacontroller-while-playing-audio-in-android"
+            android:textSize="12dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://stackoverflow.com/questions/6530250/android-media-controller-shows-display-for-a-short-time"
+            android:textSize="12dp"/>
+    </LinearLayout>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
