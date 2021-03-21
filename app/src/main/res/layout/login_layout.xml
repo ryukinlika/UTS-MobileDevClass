@@ -72,6 +72,7 @@
                     android:id="@+id/loginButton"
                     android:textSize="30dp"
                     android:backgroundTint="@android:color/background_dark"
+                    android:textColor="@color/white"
                     />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

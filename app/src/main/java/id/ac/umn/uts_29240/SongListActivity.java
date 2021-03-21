@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +37,7 @@ public class SongListActivity extends AppCompatActivity {
 
 
 
-        songLists = getSongFromDevices(this.getApplicationContext(), "");
+        songLists = getSongFromDevices(this.getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath());
         rvSongList = findViewById(R.id.recyclerView);
         adapter = new SongListAdapter(this, songLists);
         rvSongList.setAdapter(adapter);
@@ -81,8 +83,9 @@ public class SongListActivity extends AppCompatActivity {
 
     private List<SongModel> getSongFromDevices(final Context context, String args) {
         List<SongModel> temp = new ArrayList<>();
+        MediaMetadataRetriever metadata = new MediaMetadataRetriever();
 
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             //Method available on Oreo version or higher (API 27++)
             Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             String[] projection = {MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.TITLE};
@@ -110,36 +113,59 @@ public class SongListActivity extends AppCompatActivity {
         }
         else{
             //Older version (API 21~26), slow method.
-            MediaMetadataRetriever metadata = new MediaMetadataRetriever();
-            try {
-                File rootFolder = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-                File[] files = rootFolder.listFiles();
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        if (getSongFromDevices(context, file.getAbsolutePath()) != null) {
-                            temp.addAll(getSongFromDevices(context, file.getAbsolutePath()));
-                        } else {
-                            break;
-                        }
-                    } else if (file.getName().endsWith(".mp3")) {
-                        String path = file.getAbsolutePath();
-                        metadata.setDataSource(path);
+            Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            String[] projection = {MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.TITLE};
+            CursorLoader loader = new CursorLoader(context, uri, projection, null, null, null);
+            Cursor c = loader.loadInBackground();
+            if (c != null) {
+                while (c.moveToNext()) {
 
-                        String duration = metadata.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                        String title = metadata.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+                    String path = c.getString(0);
+                    String duration = c.getString(1);
+                    String title = c.getString(2);
 
-                        SongModel songModel = new SongModel(title, duration, path);
+                    //filename
+                    //String name = path.substring(path.lastIndexOf("/") + 1);
 
-                        Log.e("Name :",  title);
-                        Log.e("Duration : ", duration);
-                        Log.e("Path :", path);
-                        temp.add(songModel);
-                    }
+                    SongModel songModel = new SongModel(title, duration, path);
+
+                    Log.e("Name :",  title);
+                    Log.e("Duration : ", duration);
+                    Log.e("Path :", path);
+                    temp.add(songModel);
                 }
-
-            } catch (Exception e) {
-                return null;
+                c.close();
             }
+//            try {
+//                File rootFolder = new File(args);
+//                File[] files = rootFolder.listFiles();
+//                for (File file : files) {
+//                    if (file.isDirectory()) {
+//                        Log.d("in if directory", file.getAbsolutePath());
+//                        if (getSongFromDevices(context, file.getAbsolutePath()) != null) {
+//                            temp.addAll(getSongFromDevices(context, file.getAbsolutePath()));
+//                        } else {
+//                            break;
+//                        }
+//                    } else if (file.getName().endsWith(".mp3")) {
+//                        String path = file.getAbsolutePath();
+//                        metadata.setDataSource(path);
+//
+//                        String duration = metadata.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+//                        String title = metadata.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+//
+//                        SongModel songModel = new SongModel(title, duration, path);
+//
+//                        Log.e("Name :",  title);
+//                        Log.e("Duration : ", duration);
+//                        Log.e("Path :", path);
+//                        temp.add(songModel);
+//                    }
+//                }
+//
+//            } catch (Exception e) {
+//                return null;
+//            }
         }
         return temp;
     }
